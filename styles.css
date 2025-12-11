@@ -1,0 +1,49 @@
+.mainHeader {
+    text-align: center;
+    font-size: 24px;
+    font-weight: bold;
+    color: #000000;
+    margin-bottom: 20px;
+}
+
+body {
+    background-image: url("images/gen1.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
+.pokemon-image {
+    width: 100px;
+    height: 100px;
+}
+
+.searchContainer{
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
+    width: 100%; 
+}
+
+.search {
+    border-radius: 5px 0 0 5px;
+    margin-bottom: 20px; 
+    width: 250px; 
+    padding: 8px; 
+    font-size: 16px;
+}
+
+.btn {
+    border: none;
+    background-color: #FFFDD0;
+    color: #000000;
+    padding: 8px 12px;
+    font-size: 16px;
+    vertical-align: middle;
+    margin-left: 6px;
+    cursor: pointer;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    font-weight: bold;
+}
