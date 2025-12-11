@@ -8,8 +8,8 @@
 
 @font-face {
     font-family: 'Gen1';
-    src: url('fonts/gen1.woff2') format('woff2'),
-         url('fonts/gen1.woff2') format('woff'); 
+    src: url('fonts/pokemon_generation_1.woff') format('woff'),
+         url('fonts/pokemon_generation_1.woff') format('woff'); 
     font-weight: normal;
     font-style: normal;
 }
