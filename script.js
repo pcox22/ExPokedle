@@ -58,3 +58,29 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 
 displayDataOnPage();
+
+
+
+
+/* Research the following functions before implementation:
+
+async function queryWithCondition(query){
+const { data, error } = await supabase
+  .from('pokemon')
+  .select('*')
+  .eq('type', 'Fire')
+  .eq('generation', 1);
+}
+
+Function to obtain all data from the database such that 
+async function searchPokemon(query) {
+  const { data, error } = await supabase
+    .from('pokemon')
+    .select('*')
+    .ilike('name', `%${query}%`);
+
+  if (error) console.error(error);
+  return data;
+}
+
+*/
