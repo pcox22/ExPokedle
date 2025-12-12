@@ -16,8 +16,16 @@
   </header>
 
   <main>
+    <div id="gameDetails" class="gameDetails">
+
+    </div>
+
     <div class="searchContainer" id="searchContainer">
-      <input class="search" type="text" id="pokemonSearch" placeholder="Enter a pokemon, e.g 'Charizard'"/>
+      <input class="search" type="text" id="pokemonSearch" placeholder="Enter a pokemon, e.g 'Weedle'"/>
+
+      <div id="optionsDisplay" class="optionsDisplay">
+        <!-- Empty until the user enters data, will query database for similar results -->
+      </div>
 
       <button class="btn" id="submitSearch" >
         <i class="fa-solid fa-paper-plane" style="font-size: 18px;"></i>

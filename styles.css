@@ -37,9 +37,10 @@ body {
 
 .search {
     border-radius: 5px 0 0 5px;
-    width: 250px; 
+    width: 350px; 
     padding: 8px; 
     font-size: 16px;
+    font-family: 'Gen1';
 }
 
 .btn {

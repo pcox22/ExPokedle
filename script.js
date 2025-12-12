@@ -7,6 +7,7 @@ async function fetchData() {
   let { data, error } = await supabase
     .from('pokemon')
     .select('*')
+    .ilike('name', '%char%')
     
     if (error) {
         console.error('Error fetching data:', error);
@@ -17,16 +18,17 @@ async function fetchData() {
     return data;
 }
 
+/* Just so I can see and test some formatting */
 async function displayDataOnPage() {
     const data = await fetchData();
     if (data) {
-        const dataContainer = document.getElementById('dataContainer'); // An HTML element to display data
+        const dataContainer = document.getElementById('dataContainer');
         data.forEach(item => {
             const div = document.createElement('div');
-            div.textContent = `ID: ${item.id}, Name: ${item.name}`; // Adjust based on your table columns
+            div.textContent = `ID: ${item.id}, Name: ${item.name}`; 
             dataContainer.appendChild(div);
 
-            const imagePath = item.image;  // "poke_images/bulbasaur.png"
+            const imagePath = item.image;  // "poke_images/gen1/bulbasaur.png"
             const imageUrl = getPublicImageUrl(imagePath);
             const img = document.createElement("img");
             img.classList.add("pokemon-image");
@@ -48,16 +50,41 @@ document.addEventListener("DOMContentLoaded", function() {
   });
 });
 
+/* Currently triggers whenever the input text changes
+Working on getting it to query the database and display valid options */
 
 document.addEventListener("DOMContentLoaded", function() {
+  var data = '';
   const searchInput = document.getElementById("pokemonSearch");
+  const optionsDisplay = document.getElementById("optionsDisplay");
   searchInput.addEventListener("input", function(event) {
-    // Event listener triggers whenever the input value changes
+    // Event listener triggers whenever the input value changes, can use this for creating suggestions
     console.log('Input changed:', event.target.value);
+    data = getDropDown(event.target.value);
+    console.log("Re:", event.target.value)
   });
+
+  if (data){
+    data.forEach(item =>{
+      const option = document.createElement("option")
+      option.text = item.name
+      console.log("Drop down change detected")
+
+    })
+  }
 });
 
 displayDataOnPage();
+
+async function getDropDown(name){
+  const {data, error} = await supabase
+  .from('pokemon')
+  .select('*')
+  .ilike('name', `%${name}%`);
+
+  if (error) console.error(error);
+  return data;
+}
 
 
 
