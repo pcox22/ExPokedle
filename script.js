@@ -3,12 +3,18 @@ const supabaseUrl = 'https://uleaqzzzmyiusmelotor.supabase.co';
 const supabasekey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVsZWFxenp6bXlpdXNtZWxvdG9yIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjUzOTg5MjgsImV4cCI6MjA4MDk3NDkyOH0.avgVi89YgT0ebEhOoURXgNyccWoFfwTmwZZkEWfZb3I";
 const supabase = createClient(supabaseUrl, supabasekey);
 
-async function fetchData() {
+function getPublicImageUrl(path) {
+  return `${supabaseUrl}/storage/v1/object/public/${path}`;
+}
+
+// Template for returning data using a passed variable
+async function fetchData(name) {
+  name = 'char'
+
   let { data, error } = await supabase
     .from('pokemon')
     .select('*')
-    .ilike('name', '%char%')
-    
+    .ilike('name', `%${name}%`)
     if (error) {
         console.error('Error fetching data:', error);
         return error;
@@ -38,9 +44,7 @@ async function displayDataOnPage() {
     }
 }
 
-function getPublicImageUrl(path) {
-    return `${supabaseUrl}/storage/v1/object/public/${path}`;
-}
+
 
 document.addEventListener("DOMContentLoaded", function() {
   const searchBtn = document.getElementById("submitSearch");
@@ -57,32 +61,44 @@ document.addEventListener("DOMContentLoaded", function() {
   var data = '';
   const searchInput = document.getElementById("pokemonSearch");
   const optionsDisplay = document.getElementById("optionsDisplay");
-  searchInput.addEventListener("input", function(event) {
+  searchInput.addEventListener("input", async function(event) {
     // Event listener triggers whenever the input value changes, can use this for creating suggestions
     console.log('Input changed:', event.target.value);
-    data = getDropDown(event.target.value);
-    console.log("Re:", event.target.value)
+    data = await getDropDown(event.target.value);
+    console.log('Data Received:', data)
+
+    if (data){
+      data.forEach(item =>{
+
+      // Create a new div for this suggestion
+      const optionDiv = document.createElement('div');
+      optionDiv.textContent = item.name;
+      optionDiv.classList.add('dropdown-option'); // Add a class for possible styling
+
+      optionDiv.addEventListener('click', () => {
+         searchInput.value = item.name;
+         optionsDisplay.innerHTML = '';
+      });
+
+      optionsDisplay.appendChild(optionDiv);
+      })
+    }
   });
-
-  if (data){
-    data.forEach(item =>{
-      const option = document.createElement("option")
-      option.text = item.name
-      console.log("Drop down change detected")
-
-    })
-  }
 });
 
 displayDataOnPage();
 
 async function getDropDown(name){
+  console.log('DropDown:', name);
   const {data, error} = await supabase
   .from('pokemon')
   .select('*')
   .ilike('name', `%${name}%`);
 
   if (error) console.error(error);
+  data.forEach(item => {
+    //console.log(item.name);
+  })
   return data;
 }
 
