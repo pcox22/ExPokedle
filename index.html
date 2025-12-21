@@ -7,7 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ExPokedle</title>
   <link rel="stylesheet" href="styles.css">
-  <link rel="icon" href="/favicon.ico" type="images/PokedleIcon">
+  <link rel="icon" href="images/favicon.png" type="image/png">
 </head>
 
 
@@ -24,13 +24,16 @@
     <div class="searchContainer" id="searchContainer">
       <input class="search" type="text" id="pokemonSearch" placeholder="Enter a pokemon, e.g 'Weedle'"/>
 
-      <div id="optionsDisplay" class="optionsDisplay">
-        <!-- Empty until the user enters data, will query database for similar results -->
-      </div>
-
       <button class="btn" id="submitSearch" >
         <i class="fa-solid fa-paper-plane" style="font-size: 18px;"></i>
       </button>
+
+      <!-- Empty until the user enters data, will query database for similar results -->
+      <div id="optionsDisplay" class="optionsDisplay">
+      
+      </div>
+
+
     </div>
 
     <div id="dataContainer" class="dataContainer"></div>

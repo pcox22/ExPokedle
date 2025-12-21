@@ -67,22 +67,22 @@ document.addEventListener("DOMContentLoaded", function() {
     data = await getDropDown(event.target.value);
     console.log('Data Received:', data)
 
-    if (data){
-      data.forEach(item =>{
-
-      // Create a new div for this suggestion
-      const optionDiv = document.createElement('div');
-      optionDiv.textContent = item.name;
-      optionDiv.classList.add('dropdown-option'); // Add a class for possible styling
-
-      optionDiv.addEventListener('click', () => {
-         searchInput.value = item.name;
-         optionsDisplay.innerHTML = '';
+    data.forEach(item => {
+      const div = document.createElement("div");
+      div.className = "optionTile";
+      div.dataset.id = item.id;
+    
+      div.innerHTML = `
+        <img src="${item.image}" alt="${item.name}">
+        <span>${item.name}</span>
+      `;
+    
+      div.addEventListener("click", () => {
+        console.log("Selected:", item);
       });
-
-      optionsDisplay.appendChild(optionDiv);
-      })
-    }
+    
+      container.appendChild(div);
+    });
   });
 });
 
