@@ -81,7 +81,7 @@ document.addEventListener("DOMContentLoaded", function() {
         console.log("Selected:", item);
       });
     
-      container.appendChild(div);
+      optionsDisplay.appendChild(div);
     });
   });
 });
