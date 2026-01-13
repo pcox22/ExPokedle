@@ -24,7 +24,86 @@ async function fetchData(name) {
     return data;
 }
 
-/* Just so I can see and test some formatting */
+
+document.addEventListener("DOMContentLoaded", function() {
+  const searchBtn = document.getElementById("submitSearch");
+  searchBtn.addEventListener("click", function() {
+    const input = document.getElementById("pokemonSearch").value;
+    console.log(input);
+  });
+});
+
+/* Currently triggers whenever the input text changes
+Working on getting it to query the database and display valid options */
+
+document.addEventListener("DOMContentLoaded", function() {
+  var data = '';
+  const searchInput = document.getElementById("pokemonSearch");
+  const optionsDisplay = document.getElementById("optionsDisplay");
+
+      // Event listener triggers whenever the input value changes, can use this for creating suggestions
+  searchInput.addEventListener("input", async function(event) {
+
+    // Clear previous options
+    while (optionsDisplay.firstChild) {
+      optionsDisplay.removeChild(optionsDisplay.firstChild);
+    }
+
+    // Ensure that DB is only queried whenever there is text in the input
+    if (event.target.value.length > 0) {
+      data = await getDropDown(event.target.value);
+
+    data.forEach(item => {
+      const div = document.createElement("div");
+      div.className = "optionTile";
+    
+      const img = new Image();
+      img.alt = item.name;
+      img.loading = "lazy";
+    
+      const label = document.createElement("span");
+      label.textContent = item.name;
+    
+      img.onerror = () => console.error("failed:", img.src);
+    
+      const { data } = supabase
+        .storage
+        .from("poke_images")
+        .getPublicUrl(item.image);
+    
+      img.src = data.publicUrl;
+    
+      div.appendChild(img);
+      div.appendChild(label);
+      optionsDisplay.appendChild(div);
+      
+    });
+  }
+  });
+});
+
+
+async function getDropDown(name){
+  console.log('DropDown:', name);
+  const {data, error} = await supabase
+  .from('pokemon')
+  .select('*')
+  .ilike('name', `%${name}%`);
+
+  if (error) console.error(error);
+  data.forEach(item => {
+    //console.log(item.name);
+  })
+  return data;
+}
+
+
+
+
+/* Just so I can see and test some formatting 
+
+displayDataOnPage();
+
 async function displayDataOnPage() {
     const data = await fetchData();
     if (data) {
@@ -43,67 +122,7 @@ async function displayDataOnPage() {
         });
     }
 }
-
-
-
-document.addEventListener("DOMContentLoaded", function() {
-  const searchBtn = document.getElementById("submitSearch");
-  searchBtn.addEventListener("click", function() {
-    const input = document.getElementById("pokemonSearch").value;
-    console.log(input);
-  });
-});
-
-/* Currently triggers whenever the input text changes
-Working on getting it to query the database and display valid options */
-
-document.addEventListener("DOMContentLoaded", function() {
-  var data = '';
-  const searchInput = document.getElementById("pokemonSearch");
-  const optionsDisplay = document.getElementById("optionsDisplay");
-  searchInput.addEventListener("input", async function(event) {
-    // Event listener triggers whenever the input value changes, can use this for creating suggestions
-    console.log('Input changed:', event.target.value);
-    data = await getDropDown(event.target.value);
-    console.log('Data Received:', data)
-
-    data.forEach(item => {
-      const div = document.createElement("div");
-      div.className = "optionTile";
-      div.dataset.id = item.id;
-    
-      div.innerHTML = `
-        <img src="${item.image}" alt="${item.name}">
-        <span>${item.name}</span>
-      `;
-    
-      div.addEventListener("click", () => {
-        console.log("Selected:", item);
-      });
-    
-      optionsDisplay.appendChild(div);
-    });
-  });
-});
-
-displayDataOnPage();
-
-async function getDropDown(name){
-  console.log('DropDown:', name);
-  const {data, error} = await supabase
-  .from('pokemon')
-  .select('*')
-  .ilike('name', `%${name}%`);
-
-  if (error) console.error(error);
-  data.forEach(item => {
-    //console.log(item.name);
-  })
-  return data;
-}
-
-
-
+  */
 
 /* Research the following functions before implementation:
 
