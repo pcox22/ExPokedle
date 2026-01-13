@@ -66,10 +66,13 @@ body {
 
 .optionsDisplay {
     max-height: 300px;
+    width: 350px;
     overflow-y: auto;
     border: 1px solid #ccc;
     border-radius: 6px;
     padding: 8px;
+    margin-right: 50px;
+    background-color: rgba(175, 175, 175, 0.5);
 }
 
 .optionTile {
@@ -85,8 +88,12 @@ body {
     background-color: #f2f2f2;
 }
 
+.optionTile span {
+    font-size: 22px;
+}
+
 .optionTile img {
-    width: 40px;
-    height: 40px;
+    width: 60px;
+    height: 60px;
     object-fit: contain;
 }
