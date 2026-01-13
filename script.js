@@ -50,12 +50,20 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
     // Ensure that DB is only queried whenever there is text in the input
+    if (event.target.value.length <= 0) {
+      optionsDisplay.classList.remove("optionsDisplay");
+    }
     if (event.target.value.length > 0) {
       data = await getDropDown(event.target.value);
 
     data.forEach(item => {
       const div = document.createElement("div");
       div.className = "optionTile";
+      div.dataset.id = item.id;
+
+      div.addEventListener("click", () => {
+        console.log("Selected:", item);
+      });
     
       const img = new Image();
       img.alt = item.name;
@@ -73,9 +81,12 @@ document.addEventListener("DOMContentLoaded", function() {
     
       img.src = data.publicUrl;
     
+
       div.appendChild(img);
       div.appendChild(label);
       optionsDisplay.appendChild(div);
+      optionsDisplay.classList.add("optionsDisplay");
+
       
     });
   }
