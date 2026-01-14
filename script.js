@@ -3,6 +3,7 @@ const supabaseUrl = 'https://uleaqzzzmyiusmelotor.supabase.co';
 const supabasekey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVsZWFxenp6bXlpdXNtZWxvdG9yIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjUzOTg5MjgsImV4cCI6MjA4MDk3NDkyOH0.avgVi89YgT0ebEhOoURXgNyccWoFfwTmwZZkEWfZb3I";
 const supabase = createClient(supabaseUrl, supabasekey);
 let dailyID = ''
+let lastRequestId = 0; // Used to manage db queries
 
 function getPublicImageUrl(path) {
   return `${supabaseUrl}/storage/v1/object/public/${path}`;
@@ -44,6 +45,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
       // Event listener triggers whenever the input value changes, can use this for creating suggestions
   searchInput.addEventListener("input", async function(event) {
+    const requestId = ++lastRequestId; // Update 
 
     // Clear previous options
     while (optionsDisplay.firstChild) {
@@ -81,6 +83,8 @@ document.addEventListener("DOMContentLoaded", function() {
         .storage
         .from("poke_images")
         .getPublicUrl(item.image);
+
+      if (requestId !== lastRequestId) return; // stale
     
       img.src = data.publicUrl;
     
