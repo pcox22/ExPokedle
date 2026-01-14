@@ -2,6 +2,7 @@ import {createClient} from 'https://esm.sh/@supabase/supabase-js';
 const supabaseUrl = 'https://uleaqzzzmyiusmelotor.supabase.co';
 const supabasekey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVsZWFxenp6bXlpdXNtZWxvdG9yIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjUzOTg5MjgsImV4cCI6MjA4MDk3NDkyOH0.avgVi89YgT0ebEhOoURXgNyccWoFfwTmwZZkEWfZb3I";
 const supabase = createClient(supabaseUrl, supabasekey);
+let dailyID = ''
 
 function getPublicImageUrl(path) {
   return `${supabaseUrl}/storage/v1/object/public/${path}`;
@@ -37,7 +38,7 @@ document.addEventListener("DOMContentLoaded", function() {
 Working on getting it to query the database and display valid options */
 
 document.addEventListener("DOMContentLoaded", function() {
-  var data = '';
+  let data = '';
   const searchInput = document.getElementById("pokemonSearch");
   const optionsDisplay = document.getElementById("optionsDisplay");
 
@@ -50,19 +51,21 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
     // Ensure that DB is only queried whenever there is text in the input
-    if (event.target.value.length <= 0) {
+    if (event.target.value.length <= 0 || !data) {
       optionsDisplay.classList.remove("optionsDisplay");
     }
     if (event.target.value.length > 0) {
-      data = await getDropDown(event.target.value);
+      let data = await getDropDown(event.target.value);
 
     data.forEach(item => {
       const div = document.createElement("div");
       div.className = "optionTile";
       div.dataset.id = item.id;
+      div.id = item.id;
 
-      div.addEventListener("click", () => {
-        console.log("Selected:", item);
+      div.addEventListener("click", async () => {
+        saveGuess(item.id);
+        removeOption(div);
       });
     
       const img = new Image();
@@ -85,15 +88,22 @@ document.addEventListener("DOMContentLoaded", function() {
       div.appendChild(img);
       div.appendChild(label);
       optionsDisplay.appendChild(div);
-      optionsDisplay.classList.add("optionsDisplay");
-
-      
+      optionsDisplay.classList.add("optionsDisplay");      
     });
   }
   });
 });
 
+// Triggers whenever the user clicks on an option
+async function removeOption(div){
+  const optionsDisplay = document.getElementById('optionsDisplay');
+  optionsDisplay.removeChild(div);
+  if (div.id == dailyID){
+    console.log('Congratulations!');
+  }
+}
 
+// Aquire all options that contain prompt
 async function getDropDown(name){
   console.log('DropDown:', name);
   const {data, error} = await supabase
@@ -102,13 +112,40 @@ async function getDropDown(name){
   .ilike('name', `%${name}%`);
 
   if (error) console.error(error);
-  data.forEach(item => {
-    //console.log(item.name);
-  })
-  return data;
+  const guesses = JSON.parse(localStorage.getItem("guessedPokemon")) || [];
+  const guessSet = new Set(guesses);
+    // Remove all items from data if the item.id is found in guesses
+    var refinedData = data.filter(pokemon => !guessSet.has(pokemon.id));
+  return refinedData;
 }
 
+// Still in testing
+// Save guess to local storage
+function saveGuess(pokemonId) {
+  const guesses = JSON.parse(localStorage.getItem("guessedPokemon")) || [];
+  if (!guesses.includes(pokemonId)) {
+    guesses.push(pokemonId);
+    localStorage.setItem("guessedPokemon", JSON.stringify(guesses));
+  }
+}
 
+// Need to study up on some of these concepts
+function getDailyIndex() {
+  localStorage.setItem("guessedPokemon", null);
+  const today = new Date().toISOString().slice(0, 10); // "20xx-MM-DD"
+  let hash = 0;
+
+  for (let i = 0; i < today.length; i++) {
+    hash = (hash << 5) - hash + today.charCodeAt(i);
+    hash |= 0;
+  }
+  console.log(hash)
+  hash = Math.abs(hash % 151)
+  console.log(hash);
+  dailyID = hash;
+  //return Math.abs(hash) % totalPokemon;
+}
+document.addEventListener('DOMContentLoaded', getDailyIndex);
 
 
 /* Just so I can see and test some formatting 
