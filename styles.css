@@ -97,3 +97,38 @@ body {
     height: 60px;
     object-fit: contain;
 }
+
+.comparisons{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.comp{
+    width: 100px;
+    height: 100px;
+    margin: 10px;
+    border-radius: 15px;
+    border-style: double;
+    border-width: 15px;
+    border-color: black;
+
+    /* Center Everything neatly */
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* TODO: Find suitable colors for an 8-bit game that aren't too harsh */
+.compWrong{
+    background: #ff4747;
+}
+
+.compPartial{
+    background: #FFFF00;
+}
+
+.compCorrect{
+    background: #25FF25;
+}

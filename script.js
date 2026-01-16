@@ -35,9 +35,7 @@ document.addEventListener("DOMContentLoaded", function() {
   });
 });
 
-/* Currently triggers whenever the input text changes
-Working on getting it to query the database and display valid options */
-
+/* Currently triggers whenever the input text changes */
 document.addEventListener("DOMContentLoaded", function() {
   let data = '';
   const searchInput = document.getElementById("pokemonSearch");
@@ -105,6 +103,9 @@ async function removeOption(div){
   if (div.id == dailyID){
     console.log('Congratulations!');
   }
+  else {
+    // Make a call to the compare method
+  }
 }
 
 // Aquire all options that contain prompt
@@ -123,7 +124,6 @@ async function getDropDown(name){
   return refinedData;
 }
 
-// Still in testing
 // Save guess to local storage
 function saveGuess(pokemonId) {
   const guesses = JSON.parse(localStorage.getItem("guessedPokemon")) || [];
