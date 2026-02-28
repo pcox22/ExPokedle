@@ -101,10 +101,20 @@ body {
     object-fit: contain;
 }
 
-.comparisons{
+.comparisonContainer{
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+.comparisons{
+    display: block;
+    align-items: center;
+    justify-content: center;
+}
+
+.comparisonRow{
+    display: flex;
 }
 
 .comp{

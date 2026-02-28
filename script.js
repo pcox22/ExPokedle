@@ -21,7 +21,22 @@ async function fetchData(name) {
         console.error('Error fetching data:', error);
         return error;
     }
-    console.log(data);
+    //console.log(data);
+
+    return data;
+}
+
+async function fetchDataByID(targetID) {
+  let { data, error } = await supabase
+    .from('pokemon')
+    .select('*')
+    .eq('id', targetID)
+    .single();
+    if (error) {
+        console.error('Error fetching data:', error);
+        return error;
+    }
+    //console.log(data);
 
     return data;
 }
@@ -66,7 +81,7 @@ document.addEventListener("DOMContentLoaded", function() {
       div.addEventListener("click", async () => {
         saveGuess(item.id);
         removeOption(div);
-        checkGuess(data);
+        compareGuess(item.id);
       });
     
       const img = new Image();
@@ -101,17 +116,27 @@ document.addEventListener("DOMContentLoaded", function() {
 async function removeOption(div){
   const optionsDisplay = document.getElementById('optionsDisplay');
   optionsDisplay.removeChild(div);
+  clearSearch();
   if (div.id == dailyID){
     console.log('Congratulations!');
   }
-  else {
-    // Make a call to the compare method
+}
+
+async function clearSearch(){
+  const searchData = document.getElementById("pokemonSearch");
+  searchData.value = "";
+
+  const optionsDisplay = document.getElementById("optionsDisplay");
+  while (optionsDisplay.firstChild) {
+    optionsDisplay.removeChild(optionsDisplay.firstChild);
   }
+  optionsDisplay.classList.remove("optionsDisplay");
+
 }
 
 // Aquire all options that contain prompt
 async function getDropDown(name){
-  console.log('DropDown:', name);
+  //console.log('DropDown:', name);
   const {data, error} = await supabase
   .from('pokemon')
   .select('*')
@@ -125,16 +150,71 @@ async function getDropDown(name){
   return refinedData;
 }
 
-async function compareGuess(guessData) {
-  const comparisonContainer = document.getElementById('comparisonContainer');
+async function compareGuess(guessID) {
+  const comparisonContainer = document.getElementById('comparisons');
   const comparisonRow = document.createElement("div");
+  comparisonRow.classList.add("comparisonRow");
 
-  data.forEach(item => {
+  console.log('Comparing guess:', guessID);
+  console.log('Target:', dailyID);
+  const guessData = await fetchDataByID(guessID);
+  const targetData = await fetchDataByID(dailyID);
+
     const comparisonItem = document.createElement("div");
-    div.className = "comp";
-    div.id = item.id;
-    comparisonRow.appendChild(div);
-  });
+    comparisonItem.className = "comp";
+    comparisonItem.id = guessData.id;
+    comparisonItem.textContent = guessData.name;
+    
+    console.log('Guess Name:', guessData.name);
+    console.log('Target Name:', targetData.name);
+
+    if (guessData.name == targetData.name) {
+      comparisonItem.classList.add("compCorrect");
+    }
+    else {
+      comparisonItem.classList.add("compWrong");
+    }
+    comparisonRow.appendChild(comparisonItem);
+
+    const type1 = document.createElement("div");
+    type1.classList.add("comp");
+    if (guessData.type1 === targetData.type1) {
+      type1.classList.add("compCorrect");
+    }
+    else if (guessData.type1 === targetData.type2) {
+      type1.classList.add("compPartial");
+    }
+    else {
+      type1.classList.add("compWrong");
+    }
+    type1.textContent = guessData.type1;
+    comparisonRow.appendChild(type1);
+
+    const type2 = document.createElement("div");
+    type2.classList.add("comp");
+    if (guessData.type2 === targetData.type2) {
+      type2.classList.add("compCorrect");
+    }
+    else if (guessData.type2 === targetData.type1) {
+      type2.classList.add("compPartial");
+    }
+    else {
+      type2.classList.add("compWrong");
+    }
+    type2.textContent = guessData.type2;
+    comparisonRow.appendChild(type2);
+
+    const habitat = document.createElement("div");
+    habitat.classList.add("comp");
+    if (guessData.habitat === targetData.habitat) {
+      habitat.classList.add("compCorrect");
+    }
+    else {
+      habitat.classList.add("compWrong");
+    }
+    habitat.textContent = guessData.habitat;
+    comparisonRow.appendChild(habitat);
+  comparisonContainer.appendChild(comparisonRow);
 }
 
 // Save guess to local storage
