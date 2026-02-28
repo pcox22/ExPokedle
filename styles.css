@@ -120,11 +120,13 @@ body {
 .comp{
     width: 100px;
     height: 100px;
-    margin: 10px;
+    margin: 10px 1px 10px 1px;
     border-radius: 15px;
     border-style: double;
     border-width: 15px;
     border-color: black;
+
+    font-size: 12px;
 
     /* Center Everything neatly */
     text-align: center;
