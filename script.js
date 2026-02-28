@@ -66,6 +66,7 @@ document.addEventListener("DOMContentLoaded", function() {
       div.addEventListener("click", async () => {
         saveGuess(item.id);
         removeOption(div);
+        checkGuess(data);
       });
     
       const img = new Image();
@@ -122,6 +123,18 @@ async function getDropDown(name){
     // Remove all items from data if the item.id is found in guesses
     var refinedData = data.filter(pokemon => !guessSet.has(pokemon.id));
   return refinedData;
+}
+
+async function compareGuess(guessData) {
+  const comparisonContainer = document.getElementById('comparisonContainer');
+  const comparisonRow = document.createElement("div");
+
+  data.forEach(item => {
+    const comparisonItem = document.createElement("div");
+    div.className = "comp";
+    div.id = item.id;
+    comparisonRow.appendChild(div);
+  });
 }
 
 // Save guess to local storage

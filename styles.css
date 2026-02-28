@@ -62,9 +62,11 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
+    position: relative;
 }
 
 .optionsDisplay {
+    top: 10%;
     max-height: 300px;
     width: 350px;
     overflow-y: auto;
@@ -73,6 +75,7 @@ body {
     padding: 8px;
     margin-right: 50px;
     background-color: rgba(175, 175, 175, 0.5);
+    position: absolute;
 }
 
 .optionTile {
