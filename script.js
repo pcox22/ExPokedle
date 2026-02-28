@@ -214,7 +214,7 @@ async function compareGuess(guessID) {
     }
     habitat.textContent = guessData.habitat;
     comparisonRow.appendChild(habitat);
-  comparisonContainer.appendChild(comparisonRow);
+  comparisonContainer.prepend(comparisonRow);
 }
 
 // Save guess to local storage
