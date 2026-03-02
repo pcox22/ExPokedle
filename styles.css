@@ -118,8 +118,8 @@ body {
 }
 
 .comp{
-    width: 100px;
-    height: 100px;
+    width: 70px;
+    height: 70px;
     margin: 10px 1px 10px 1px;
     border-radius: 15px;
     border-style: double;
@@ -130,6 +130,7 @@ body {
 
     /* Center Everything neatly */
     text-align: center;
+    text-wrap: wrap;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -149,7 +150,20 @@ body {
 }
 
 .compPic{
-    width: 100px;
-    height: 100px;
+    width: 70px;
+    height: 70px;
     object-fit: contain;
+}
+
+.guessDetailsHeader{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+.guessDetailsHeader p{
+    margin: 0px 15px 0 15px;
+    background-color: rgba(30, 30, 30, 0.5);
+    color: #FFFFFF;
 }

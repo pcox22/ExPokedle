@@ -231,6 +231,20 @@ async function compareGuess(guessID) {
     type2.textContent = guessData.type2;
     comparisonRow.appendChild(type2);
 
+    const color = document.createElement("div");
+    color.classList.add("comp");
+    if (guessData.colors === targetData.colors) {
+      color.classList.add("compCorrect");
+    }
+    else {
+      if (targetData.colors.includes(guessData.colors)) {
+        color.classList.add("compPartial");
+      }
+      color.classList.add("compWrong");
+    }
+    color.textContent = guessData.colors;
+    comparisonRow.appendChild(color);
+
     const habitat = document.createElement("div");
     habitat.classList.add("comp");
     if (guessData.habitat === targetData.habitat) {
@@ -241,6 +255,42 @@ async function compareGuess(guessID) {
     }
     habitat.textContent = guessData.habitat;
     comparisonRow.appendChild(habitat);
+
+    const height = document.createElement("div");
+    height.classList.add("comp");
+    if (guessData.height === targetData.height) {
+      height.classList.add("compCorrect");
+      height.textContent = guessData.height + "m";
+    }
+    else {
+      if (guessData.height > targetData.height) {
+        height.textContent = "< " + guessData.height + "m";
+      }
+      else {
+        height.textContent = "> " + guessData.height + "m";
+      }
+      height.classList.add("compWrong");
+    }
+    comparisonRow.appendChild(height);
+
+    const weight = document.createElement("div");
+    weight.classList.add("comp");
+    if (guessData.weight === targetData.weight) {
+      weight.classList.add("compCorrect");
+      weight.textContent = guessData.weight + "kg";
+    }
+    else {
+      weight.classList.add("compWrong");
+      if (guessData.weight > targetData.weight) {
+        weight.textContent = "< " + guessData.weight + "kg";
+      }
+      else {
+        weight.textContent = "> " + guessData.weight + "kg";
+      }
+    }
+    comparisonRow.appendChild(weight);
+
+
   comparisonContainer.prepend(comparisonRow);
 }
 
