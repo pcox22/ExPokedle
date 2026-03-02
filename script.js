@@ -164,10 +164,35 @@ async function compareGuess(guessID) {
     comparisonItem.className = "comp";
     comparisonItem.id = guessData.id;
     comparisonItem.textContent = guessData.name;
-    
-    console.log('Guess Name:', guessData.name);
-    console.log('Target Name:', targetData.name);
 
+    const pic = document.createElement("div");
+    pic.classList.add("comp");
+    const img = new Image();
+      img.alt = guessData.name;
+      img.loading = "lazy";
+    
+      img.onerror = () => console.error("failed:", img.src);
+    
+      const { data } = supabase
+        .storage
+        .from("poke_images")
+        .getPublicUrl(guessData.image);
+    
+      img.src = data.publicUrl;
+      img.classList.add("compPic");
+
+      pic.appendChild(img);
+
+      if (guessData.name == targetData.name) {
+        pic.classList.add("compCorrect");
+      }
+      else {
+        pic.classList.add("compWrong");
+      }
+
+      comparisonRow.appendChild(pic);
+
+    // Compare the name of the guess and the target Pokemon
     if (guessData.name == targetData.name) {
       comparisonItem.classList.add("compCorrect");
     }

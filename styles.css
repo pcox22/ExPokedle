@@ -147,3 +147,9 @@ body {
 .compCorrect{
     background: #25FF25;
 }
+
+.compPic{
+    width: 100px;
+    height: 100px;
+    object-fit: contain;
+}
