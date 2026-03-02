@@ -192,7 +192,8 @@ async function compareGuess(guessID) {
 
       comparisonRow.appendChild(pic);
 
-    // Compare the name of the guess and the target Pokemon
+    // Compare the name of the guess and the target Pokemon - Redacted since name covers
+    /*
     if (guessData.name == targetData.name) {
       comparisonItem.classList.add("compCorrect");
     }
@@ -200,6 +201,7 @@ async function compareGuess(guessID) {
       comparisonItem.classList.add("compWrong");
     }
     comparisonRow.appendChild(comparisonItem);
+      */
 
     const type1 = document.createElement("div");
     type1.classList.add("comp");
