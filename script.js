@@ -165,6 +165,8 @@ async function compareGuess(guessID) {
     comparisonItem.id = guessData.id;
     comparisonItem.textContent = guessData.name;
 
+    comparisonContainer.prepend(comparisonRow);
+
     const pic = document.createElement("div");
     pic.classList.add("comp");
     const img = new Image();
@@ -190,7 +192,6 @@ async function compareGuess(guessID) {
         pic.classList.add("compWrong");
       }
 
-      comparisonRow.appendChild(pic);
 
     // Compare the name of the guess and the target Pokemon - Redacted since name covers
     /*
@@ -215,7 +216,6 @@ async function compareGuess(guessID) {
       type1.classList.add("compWrong");
     }
     type1.textContent = guessData.type1;
-    comparisonRow.appendChild(type1);
 
     const type2 = document.createElement("div");
     type2.classList.add("comp");
@@ -229,7 +229,6 @@ async function compareGuess(guessID) {
       type2.classList.add("compWrong");
     }
     type2.textContent = guessData.type2;
-    comparisonRow.appendChild(type2);
 
     const color = document.createElement("div");
     color.classList.add("comp");
@@ -243,7 +242,6 @@ async function compareGuess(guessID) {
       color.classList.add("compWrong");
     }
     color.textContent = guessData.colors;
-    comparisonRow.appendChild(color);
 
     const habitat = document.createElement("div");
     habitat.classList.add("comp");
@@ -254,7 +252,6 @@ async function compareGuess(guessID) {
       habitat.classList.add("compWrong");
     }
     habitat.textContent = guessData.habitat;
-    comparisonRow.appendChild(habitat);
 
     const height = document.createElement("div");
     height.classList.add("comp");
@@ -271,7 +268,6 @@ async function compareGuess(guessID) {
       }
       height.classList.add("compWrong");
     }
-    comparisonRow.appendChild(height);
 
     const weight = document.createElement("div");
     weight.classList.add("comp");
@@ -288,11 +284,32 @@ async function compareGuess(guessID) {
         weight.textContent = "> " + guessData.weight + "kg";
       }
     }
+
+    /*
+    comparisonRow.appendChild(pic);
+    comparisonRow.appendChild(type1);
+    comparisonRow.appendChild(type2);
+    comparisonRow.appendChild(color);
+    comparisonRow.appendChild(habitat);
+    comparisonRow.appendChild(height);
     comparisonRow.appendChild(weight);
+    */
 
-
-  comparisonContainer.prepend(comparisonRow);
+    appendWithDelay([pic, type1, type2, color, habitat, height, weight], comparisonRow);
 }
+
+    // Helper to pause for ms milliseconds
+    function sleep(ms) {
+      return new Promise(resolve => setTimeout(resolve, ms));
+    }
+
+    // Append items to comparisonRow with a delay between each
+    async function appendWithDelay(elements, parent, delay = 250) {
+      for (const el of elements) {
+        parent.appendChild(el);
+        await sleep(delay);
+      }
+    }
 
 // Save guess to local storage
 function saveGuess(pokemonId) {
