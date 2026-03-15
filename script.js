@@ -323,6 +323,7 @@ async function compareGuess(guessID) {
     async function appendWithDelay(elements, parent, delay = 250) {
       for (const el of elements) {
         parent.appendChild(el);
+        animateGrowDiv(el, 70, 70);
         await sleep(delay);
       }
     }
@@ -353,6 +354,31 @@ function getDailyIndex() {
   //return Math.abs(hash) % totalPokemon;
 }
 document.addEventListener('DOMContentLoaded', getDailyIndex);
+
+/**
+ * Animate a div to grow from 0x0 to the given width and height (in px).
+ * @param {HTMLElement} div - The div element to animate.
+ * @param {number} targetWidth - Final width in px.
+ * @param {number} targetHeight - Final height in px.
+ * @param {number} duration - Duration of the animation in ms (default 400).
+ */
+function animateGrowDiv(div, targetWidth, targetHeight, duration = 400) {
+    if (!div) return;
+    div.style.overflow = 'hidden';
+    div.style.width = '0px';
+    div.style.height = '0px';
+    div.style.transition = `width ${duration}ms ease, height ${duration}ms ease`;
+    // Needed for the browser to register initial 0x0
+    requestAnimationFrame(() => {
+        div.style.width = targetWidth + "px";
+        div.style.height = targetHeight + "px";
+    });
+    // Optional cleanup of transition after animation ends:
+    setTimeout(() => {
+        div.style.transition = '';
+        div.style.overflow = '';
+    }, duration + 50);
+}
 
 
 /* Just so I can see and test some formatting 
