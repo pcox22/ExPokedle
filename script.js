@@ -230,6 +230,22 @@ async function compareGuess(guessID) {
     }
     type2.textContent = guessData.type2;
 
+    const stage = document.createElement("div");
+    stage.classList.add("comp");
+    stage.textContent = guessData.stage;
+    if (guessData.stage === targetData.stage) {
+      stage.classList.add("compCorrect");
+    }
+    else {
+      if (guessData.stage > targetData.stage) {
+        stage.textContent = "< " + guessData.stage;
+      }
+      else {
+        stage.textContent = "> " + guessData.stage;
+      }
+    }
+    stage.classList.add("compWrong");
+
     const color = document.createElement("div");
     color.classList.add("comp");
     if (guessData.colors === targetData.colors) {
@@ -295,7 +311,7 @@ async function compareGuess(guessID) {
     comparisonRow.appendChild(weight);
     */
 
-    appendWithDelay([pic, type1, type2, color, habitat, height, weight], comparisonRow);
+    appendWithDelay([pic, type1, type2, stage, color, habitat, height, weight], comparisonRow);
 }
 
     // Helper to pause for ms milliseconds
