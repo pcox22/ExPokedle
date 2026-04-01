@@ -46,7 +46,23 @@ document.addEventListener("DOMContentLoaded", function() {
   const searchBtn = document.getElementById("submitSearch");
   searchBtn.addEventListener("click", function() {
     const input = document.getElementById("pokemonSearch").value;
+/*
+    (async () => {
+      let { data, error } = await supabase
+        .from('pokemon')
+        .select('*')
+        .ilike('name', `%${input}%`)
+        .limit(1)
+        .single();
+
+      if (error) {
+        console.error('Error fetching data:', error);
+      } else {
+        console.log('First match:', data);
+      }
+    })();
     console.log(input);
+    */
   });
 });
 
@@ -55,6 +71,7 @@ document.addEventListener("DOMContentLoaded", function() {
   let data = '';
   const searchInput = document.getElementById("pokemonSearch");
   const optionsDisplay = document.getElementById("optionsDisplay");
+
 
       // Event listener triggers whenever the input value changes, can use this for creating suggestions
   searchInput.addEventListener("input", async function(event) {
@@ -106,8 +123,17 @@ document.addEventListener("DOMContentLoaded", function() {
       div.appendChild(img);
       div.appendChild(label);
       optionsDisplay.appendChild(div);
-      optionsDisplay.classList.add("optionsDisplay");      
+      optionsDisplay.classList.add("optionsDisplay");
     });
+
+
+      const searchBtn = document.getElementById("submitSearch");
+      searchBtn.addEventListener("click", function() {
+        console.log("ID:", optionsDisplay.firstChild.id);
+        saveGuess(parseInt(optionsDisplay.firstChild.id));
+        compareGuess(optionsDisplay.firstChild.id);
+        removeOption(optionsDisplay.firstChild);
+      }); 
   }
   });
 });
@@ -191,18 +217,6 @@ async function compareGuess(guessID) {
       else {
         pic.classList.add("compWrong");
       }
-
-
-    // Compare the name of the guess and the target Pokemon - Redacted since name covers
-    /*
-    if (guessData.name == targetData.name) {
-      comparisonItem.classList.add("compCorrect");
-    }
-    else {
-      comparisonItem.classList.add("compWrong");
-    }
-    comparisonRow.appendChild(comparisonItem);
-      */
 
     const type1 = document.createElement("div");
     type1.classList.add("comp");
@@ -333,6 +347,8 @@ function saveGuess(pokemonId) {
   const guesses = JSON.parse(localStorage.getItem("guessedPokemon")) || [];
   if (!guesses.includes(pokemonId)) {
     guesses.push(pokemonId);
+    console.log("Pushed ", pokemonId, " to guessedPokemon");
+    console.log("GuessedPokemon:", guesses);
     localStorage.setItem("guessedPokemon", JSON.stringify(guesses));
   }
 }
