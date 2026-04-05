@@ -66,6 +66,14 @@ document.addEventListener("DOMContentLoaded", function() {
   });
 });
 
+const submitBtn = document.getElementById("submitSearch");
+submitBtn.addEventListener("click", function() {
+  console.log("ID:", optionsDisplay.firstChild.id);
+  saveGuess(parseInt(optionsDisplay.firstChild.id));
+  compareGuess(optionsDisplay.firstChild.id);
+  removeOption(optionsDisplay.firstChild);
+});
+
 /* Currently triggers whenever the input text changes */
 document.addEventListener("DOMContentLoaded", function() {
   let data = '';
@@ -125,15 +133,6 @@ document.addEventListener("DOMContentLoaded", function() {
       optionsDisplay.appendChild(div);
       optionsDisplay.classList.add("optionsDisplay");
     });
-
-
-      const searchBtn = document.getElementById("submitSearch");
-      searchBtn.addEventListener("click", function() {
-        console.log("ID:", optionsDisplay.firstChild.id);
-        saveGuess(parseInt(optionsDisplay.firstChild.id));
-        compareGuess(optionsDisplay.firstChild.id);
-        removeOption(optionsDisplay.firstChild);
-      }); 
   }
   });
 });
