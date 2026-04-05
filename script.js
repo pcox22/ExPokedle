@@ -41,31 +41,6 @@ async function fetchDataByID(targetID) {
     return data;
 }
 
-
-document.addEventListener("DOMContentLoaded", function() {
-  const searchBtn = document.getElementById("submitSearch");
-  searchBtn.addEventListener("click", function() {
-    const input = document.getElementById("pokemonSearch").value;
-/*
-    (async () => {
-      let { data, error } = await supabase
-        .from('pokemon')
-        .select('*')
-        .ilike('name', `%${input}%`)
-        .limit(1)
-        .single();
-
-      if (error) {
-        console.error('Error fetching data:', error);
-      } else {
-        console.log('First match:', data);
-      }
-    })();
-    console.log(input);
-    */
-  });
-});
-
 const submitBtn = document.getElementById("submitSearch");
 submitBtn.addEventListener("click", function() {
   console.log("ID:", optionsDisplay.firstChild.id);
