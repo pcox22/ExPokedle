@@ -41,13 +41,30 @@ async function fetchDataByID(targetID) {
     return data;
 }
 
+// function to submit search when button is pressed: submitSearch()
 const submitBtn = document.getElementById("submitSearch");
 submitBtn.addEventListener("click", function() {
-  console.log("ID:", optionsDisplay.firstChild.id);
-  saveGuess(parseInt(optionsDisplay.firstChild.id));
-  compareGuess(optionsDisplay.firstChild.id);
-  removeOption(optionsDisplay.firstChild);
+  const optionsDisplay = document.getElementById("optionsDisplay");
+  if (optionsDisplay && optionsDisplay.firstChild) {
+    saveGuess(parseInt(optionsDisplay.firstChild.id));
+    compareGuess(optionsDisplay.firstChild.id);
+    removeOption(optionsDisplay.firstChild);
+  }
 });
+
+const searchBar = document.getElementById("pokemonSearch");
+searchBar.addEventListener("keydown", function(event) {
+  if (event.key === "Enter") {
+    // Find the first child of optionsDisplay to submit, if any
+    const optionsDisplay = document.getElementById("optionsDisplay");
+    if (optionsDisplay && optionsDisplay.firstChild) {
+      saveGuess(parseInt(optionsDisplay.firstChild.id));
+      compareGuess(optionsDisplay.firstChild.id);
+      removeOption(optionsDisplay.firstChild);
+    }
+  }
+});
+
 
 /* Currently triggers whenever the input text changes */
 document.addEventListener("DOMContentLoaded", function() {
