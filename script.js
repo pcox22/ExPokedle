@@ -265,10 +265,13 @@ async function compareGuess(guessID) {
       color.classList.add("compCorrect");
     }
     else {
-      if (targetData.colors.includes(guessData.colors)) {
+      const [color1, color2] = targetData.colors.split(",");
+      if (targetData.colors.includes(color1) || targetData.colors.includes(color2)) {
         color.classList.add("compPartial");
       }
-      color.classList.add("compWrong");
+      else {
+        color.classList.add("compWrong");
+      }
     }
     color.textContent = guessData.colors;
 
