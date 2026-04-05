@@ -177,6 +177,10 @@ async function compareGuess(guessID) {
   const guessData = await fetchDataByID(guessID);
   const targetData = await fetchDataByID(dailyID);
 
+  if (guessData.name == targetData.name) {
+    correctGuess();
+  }
+
     const comparisonItem = document.createElement("div");
     comparisonItem.className = "comp";
     comparisonItem.id = guessData.id;
@@ -309,16 +313,6 @@ async function compareGuess(guessID) {
       }
     }
 
-    /*
-    comparisonRow.appendChild(pic);
-    comparisonRow.appendChild(type1);
-    comparisonRow.appendChild(type2);
-    comparisonRow.appendChild(color);
-    comparisonRow.appendChild(habitat);
-    comparisonRow.appendChild(height);
-    comparisonRow.appendChild(weight);
-    */
-
     appendWithDelay([pic, type1, type2, stage, color, habitat, height, weight], comparisonRow);
 }
 
@@ -335,6 +329,16 @@ async function compareGuess(guessID) {
         await sleep(delay);
       }
     }
+
+
+async function correctGuess() {
+  await sleep(0);
+  const searchInput = document.getElementById("pokemonSearch");
+  if (searchInput) {
+    searchInput.disabled = true;
+  }
+}
+
 
 // Save guess to local storage
 function saveGuess(pokemonId) {
@@ -389,51 +393,3 @@ function animateGrowDiv(div, targetWidth, targetHeight, duration = 400) {
         div.style.overflow = '';
     }, duration + 50);
 }
-
-
-/* Just so I can see and test some formatting 
-
-displayDataOnPage();
-
-async function displayDataOnPage() {
-    const data = await fetchData();
-    if (data) {
-        const dataContainer = document.getElementById('dataContainer');
-        data.forEach(item => {
-            const div = document.createElement('div');
-            div.textContent = `ID: ${item.id}, Name: ${item.name}`; 
-            dataContainer.appendChild(div);
-
-            const imagePath = item.image;  // "poke_images/gen1/bulbasaur.png"
-            const imageUrl = getPublicImageUrl(imagePath);
-            const img = document.createElement("img");
-            img.classList.add("pokemon-image");
-            img.src = imageUrl;
-            dataContainer.appendChild(img);
-        });
-    }
-}
-  */
-
-/* Research the following functions before implementation:
-
-async function queryWithCondition(query){
-const { data, error } = await supabase
-  .from('pokemon')
-  .select('*')
-  .eq('type', 'Fire')
-  .eq('generation', 1);
-}
-
-Function to obtain all data from the database such that 
-async function searchPokemon(query) {
-  const { data, error } = await supabase
-    .from('pokemon')
-    .select('*')
-    .ilike('name', `%${query}%`);
-
-  if (error) console.error(error);
-  return data;
-}
-
-*/
