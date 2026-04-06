@@ -4,6 +4,7 @@ const supabasekey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZS
 const supabase = createClient(supabaseUrl, supabasekey);
 let dailyID = ''
 let lastRequestId = 0; // Used to manage db queries
+let totalGuesses = 0;
 
 function getPublicImageUrl(path) {
   return `${supabaseUrl}/storage/v1/object/public/${path}`;
@@ -337,7 +338,114 @@ async function correctGuess() {
   if (searchInput) {
     searchInput.disabled = true;
   }
+  await sleep(2000)
+  showCongratulatoryAnimation("Congratulations! 🎉");
 }
+
+function showCongratulatoryAnimation(message = "Congratulations! 🎉") {
+  // Remove existing animation if present
+  const existing = document.getElementById('congratsAnimation');
+  if (existing) existing.remove();
+
+  // Create overlay
+  const overlay = document.createElement('div');
+  overlay.id = 'congratsAnimation';
+  Object.assign(overlay.style, {
+    position: 'fixed',
+    top: 0, left: 0, right: 0, bottom: 0,
+    zIndex: 9999,
+    background: 'rgba(0,0,0,0.4)',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    pointerEvents: 'none'
+  });
+
+  // Main content
+  const centerBox = document.createElement('div');
+  Object.assign(centerBox.style, {
+    background: 'white',
+    borderRadius: '24px',
+    boxShadow: '0 4px 32px rgba(0,0,0,0.15)',
+    padding: '44px 64px',
+    fontSize: '2.25rem',
+    fontWeight: 'bold',
+    color: '#4CAF50',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    transform: 'scale(0)',
+    opacity: 0,
+    transition: 'transform 0.42s cubic-bezier(.5,2,0,1), opacity 0.34s'
+  });
+
+  /* Sparkle/confetti (simple emoji, for effect)
+  const sparkle = document.createElement('div');
+  sparkle.textContent = "✨🎊";
+  sparkle.style.fontSize = '3.2rem';
+  sparkle.style.marginBottom = '14px';
+  */
+
+  // Message
+  const msg = document.createElement('div');
+  msg.textContent = message;
+
+  const guessInfo = document.createElement('div');
+  guessInfo.textContent = "You correctly guessed in " + totalGuesses + " attempt(s)!"
+
+  //centerBox.appendChild(sparkle);
+  centerBox.appendChild(msg);
+  centerBox.appendChild(guessInfo);
+
+
+  overlay.appendChild(centerBox);
+  document.body.appendChild(overlay);
+
+  // Animate in
+  setTimeout(() => {
+    centerBox.style.transform = 'scale(1)';
+    centerBox.style.opacity = '1';
+  }, 40);
+
+  // Burst confetti effect (emoji-based)
+  for (let i = 0; i < 24; ++i) {
+    const confetti = document.createElement('div');
+    confetti.textContent = Math.random() < .5 ? "🎉" : (Math.random() < .5 ? '✨' : '🌟');
+    Object.assign(confetti.style, {
+      position: 'absolute',
+      left: '50%',
+      top: '54%',
+      fontSize: (Math.random() * 1.1 + 1.1).toFixed(2) + 'rem',
+      opacity: 0.85,
+      pointerEvents: 'none',
+      transition: 'transform 0.92s cubic-bezier(.19,.88,.62,1.25), opacity 0.72s'
+    });
+    overlay.appendChild(confetti);
+
+    // Animate confetti burst radially outward
+    (function(el, idx) {
+      setTimeout(() => {
+        const angle = (Math.PI * 2 / 24) * idx + (Math.random() - .5) * .6;
+        const radius = (68 + Math.random() * 52);
+        el.style.transform =
+          `translate(-50%, -50%) translate(${Math.cos(angle)*radius}px,${Math.sin(angle)*radius}px) rotate(${angle*40}deg)`;
+        el.style.opacity = 0;
+      }, 120 + idx * 12);
+      // Remove after animation
+      setTimeout(() => el.remove(), 1900 + idx*13);
+    })(confetti, i);
+  }
+
+  // Automatically fade out after 5s
+  setTimeout(() => {
+    centerBox.style.opacity = '0';
+    centerBox.style.transform = 'scale(1.11)';
+    setTimeout(() => {
+      overlay.remove();
+    }, 700);
+  }, 5000);
+}
+
 
 
 // Save guess to local storage
@@ -349,14 +457,67 @@ function saveGuess(pokemonId) {
     console.log("GuessedPokemon:", guesses);
     localStorage.setItem("guessedPokemon", JSON.stringify(guesses));
   }
+  totalGuesses = guesses.length || 0;
 }
 
+function resetGuessedPokemon() {
+  localStorage.setItem("guessedPokemon", JSON.stringify([]));
+  totalGuesses = 0;
+  console.log("guessedPokemon reset for the new day.");
+}
+
+// Helper to compute ms until the next midnight ET (Eastern Time, UTC-5/UTC-4 with DST)
+function msUntilNextETMidnight() {
+  // Get current Eastern Time by using UTC and adjusting for ET offset
+  const now = new Date();
+
+  // EST is UTC-5, EDT (DST) is UTC-4
+  // This uses US Eastern Time, adjusting for DST if needed
+  // Get current time in UTC, then check if DST is in effect in New York
+  let etOffset = -5; // EST by default
+  const jan = new Date(now.getFullYear(), 0, 1);
+  const jul = new Date(now.getFullYear(), 6, 1);
+  // Offset in minutes between UTC and New York in January/July
+  const stdTimezoneOffset = Math.max(jan.getTimezoneOffset(), jul.getTimezoneOffset());
+  const nyOffset = now.getTimezoneOffset();
+  if (nyOffset < stdTimezoneOffset) {
+    etOffset = -4; // DST (EDT)
+  }
+  // Current ET time
+  const utc = now.getTime() + now.getTimezoneOffset() * 60000;
+  const etNow = new Date(utc + etOffset * 3600 * 1000);
+
+  // Next ET midnight
+  const nextETMidnight = new Date(etNow);
+  nextETMidnight.setHours(24, 0, 0, 0); // Midnight of next day
+
+  const msToMidnight = nextETMidnight.getTime() - etNow.getTime();
+  return msToMidnight;
+}
+
+// Setup auto-reset every night at 12:00 am ET
+function scheduleGuessedPokemonReset() {
+  const msUntilReset = msUntilNextETMidnight();
+  setTimeout(() => {
+    resetGuessedPokemon();
+    // After the first execution, reset every 24 hours (no need to shift for DST here, as drift will be < 1s/day)
+    setInterval(resetGuessedPokemon, 24 * 60 * 60 * 1000);
+  }, msUntilReset);
+}
+
+// Initiate the schedule when the script loads
+scheduleGuessedPokemonReset();
+
+
 // Need to study up on some of these concepts
+document.addEventListener('DOMContentLoaded', getDailyIndex); // Note; This is called when the page loads
 function getDailyIndex() {
+  // Either comment or uncomment the following line to prevent or allow guesses to be stored.
   localStorage.setItem("guessedPokemon", null);
   const today = new Date().toISOString().slice(0, 10); // "20xx-MM-DD"
   let hash = 0;
 
+  /* Outdated hashing function. Trying the new one stored in function.
   for (let i = 0; i < today.length; i++) {
     hash = (hash << 5) - hash + today.charCodeAt(i);
     hash |= 0;
@@ -364,10 +525,83 @@ function getDailyIndex() {
   console.log(hash)
   hash = Math.abs(hash % 151)
   console.log(hash);
+  */
+  hash = getDailyRandomNumber();
+  console.log(hash);
   dailyID = hash;
   //return Math.abs(hash) % totalPokemon;
 }
-document.addEventListener('DOMContentLoaded', getDailyIndex);
+
+
+
+/**
+ * Returns a completely randomized number based on today's date,
+ * ensuring that two consecutive days never have outputs within 1 digit of each other.
+ * The result is between min (inclusive) and max (exclusive).
+ * By default, produces values in [0, 1_000_000).
+ */
+function getDailyRandomNumber(min = 0, max = 151) {
+  // Get today's date in YYYY-MM-DD format
+  const today = new Date();
+  const yyyy = today.getFullYear();
+  const mm = String(today.getMonth() + 1).padStart(2, '0');
+  const dd = String(today.getDate()).padStart(2, '0');
+  const dateStr = `${yyyy}-${mm}-${dd}`;
+
+  // A base hash function (FNV-1a) to hash the date string.
+  function hash(str) {
+    let h = 2166136261 ^ str.length;
+    for (let i = 0; i < str.length; i++) {
+      h ^= str.charCodeAt(i);
+      h += (h << 1) + (h << 4) + (h << 7) + (h << 8) + (h << 24);
+    }
+    return h >>> 0;
+  }
+
+  // Ensures consecutive days cannot be off by 1
+  // Use a salt which alternates (for example: "A"/"B") and add more entropy from year/month/day offset
+  const salt = ((parseInt(yyyy + mm + dd, 10) % 2) === 0) ? 'A' : 'B';
+
+  // Mix in the day of year so Jan 1 ... Dec 31 always differ
+  const startOfYear = new Date(today.getFullYear(), 0, 0);
+  const dayOfYear = Math.floor((today - startOfYear) / (1000 * 60 * 60 * 24));
+
+  // Final key to hash
+  const key = `${dateStr}:${salt}:${dayOfYear + 100}`;
+
+  // Generate hash and map to range.
+  let rand = hash(key);
+
+  // For extra randomness, mix with a congruential transformation
+  rand = (rand * 9301 + 49297) % 233280;
+
+  // Map to range
+  const finalNum = min + (rand % (max - min));
+
+  // As a final safety, if two consecutive days produce values within 1, "jump" the number by +7, wrap max.
+  if (typeof window !== "undefined") {
+    // Try to cache yesterday's value in window to compare
+    let prevDay = new Date(today);
+    prevDay.setDate(today.getDate() - 1);
+    const prevYyyy = prevDay.getFullYear();
+    const prevMm = String(prevDay.getMonth() + 1).padStart(2, '0');
+    const prevDd = String(prevDay.getDate()).padStart(2, '0');
+    const prevDateStr = `${prevYyyy}-${prevMm}-${prevDd}`;
+    const prevDoY = Math.floor((prevDay - new Date(prevYyyy, 0, 0)) / (1000 * 60 * 60 * 24));
+    const prevSalt = ((parseInt(prevYyyy + prevMm + prevDd, 10) % 2) === 0) ? 'A' : 'B';
+    const prevKey = `${prevDateStr}:${prevSalt}:${prevDoY + 100}`;
+    let prevRand = hash(prevKey);
+    prevRand = (prevRand * 9301 + 49297) % 233280;
+    const prevFinal = min + (prevRand % (max - min));
+    if (Math.abs(finalNum - prevFinal) <= 1) {
+      // Jump to different value
+      return (finalNum + 7) % (max - min) + min;
+    }
+  }
+
+  return finalNum;
+}
+
 
 /**
  * Animate a div to grow from 0x0 to the given width and height (in px).
