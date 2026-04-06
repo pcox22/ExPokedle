@@ -261,7 +261,7 @@ async function compareGuess(guessID) {
       color.classList.add("compCorrect");
     }
     else {
-      const [color1, color2] = targetData.colors.split(",");
+      const [color1, color2] = guessData.colors.split(",");
       if (targetData.colors.includes(color1) || targetData.colors.includes(color2)) {
         color.classList.add("compPartial");
       }
