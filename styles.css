@@ -136,6 +136,16 @@ body {
     justify-content: center;
 }
 
+.compEmpty{
+    width: 70px;
+    height: 70px;
+    margin: 10px 1px 10px 1px;
+    border-radius: 15px;
+    border-style: double;
+    border-width: 15px;
+    border-color: transparent;
+}
+
 /* TODO: Find suitable colors for an 8-bit game that aren't too harsh */
 .compWrong{
     background: #ff4747;
