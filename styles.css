@@ -159,6 +159,10 @@ body {
     background: #25FF25;
 }
 
+.compTitle{
+    background: #FFFFFF;
+}
+
 .compPic{
     width: 70px;
     height: 70px;
@@ -176,4 +180,12 @@ body {
     margin: 0px 15px 0 15px;
     background-color: rgba(30, 30, 30, 0.5);
     color: #FFFFFF;
+}
+
+.MDC {
+    display: flex;
+    flex-direction: column;
+
+    justify-content: center;
+    align-items: center;
 }

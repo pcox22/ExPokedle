@@ -342,7 +342,7 @@ async function correctGuess() {
   showCongratulatoryAnimation("Congratulations! 🎉");
 }
 
-function showCongratulatoryAnimation(message = "Congratulations! 🎉") {
+async function showCongratulatoryAnimation(message = "Congratulations! 🎉") {
   // Remove existing animation if present
   const existing = document.getElementById('congratsAnimation');
   if (existing) existing.remove();
@@ -390,8 +390,9 @@ function showCongratulatoryAnimation(message = "Congratulations! 🎉") {
   const msg = document.createElement('div');
   msg.textContent = message;
 
+  let gD = await fetchDataByID(dailyID)
   const guessInfo = document.createElement('div');
-  guessInfo.textContent = "You correctly guessed in " + totalGuesses + " attempt(s)!"
+  guessInfo.textContent = "You correctly guessed " + gD.name + " in " + totalGuesses + " attempt(s)!"
 
   //centerBox.appendChild(sparkle);
   centerBox.appendChild(msg);
@@ -436,14 +437,14 @@ function showCongratulatoryAnimation(message = "Congratulations! 🎉") {
     })(confetti, i);
   }
 
-  // Automatically fade out after 5s
+  // Automatically fade out after 4s
   setTimeout(() => {
     centerBox.style.opacity = '0';
     centerBox.style.transform = 'scale(1.11)';
     setTimeout(() => {
       overlay.remove();
     }, 700);
-  }, 5000);
+  }, 4000);
 }
 
 
@@ -519,8 +520,10 @@ async function generateGuessedData() {
     const cleanedGuessedPokemon = guessedPokemon.replace(/[\[\]]/g, "");
     let formatGuessed = cleanedGuessedPokemon.split(",")
 
+
     for (let i = 0; i < guessedPokemon.length; i++) {
       if (formatGuessed[i]){
+        totalGuesses += 1
         console.log(formatGuessed[i])
         await compareGuess(formatGuessed[i])
       }
