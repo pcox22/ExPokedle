@@ -173,8 +173,8 @@ async function compareGuess(guessID) {
   const comparisonRow = document.createElement("div");
   comparisonRow.classList.add("comparisonRow");
 
-  console.log('Comparing guess:', guessID);
-  console.log('Target:', dailyID);
+  //console.log('Comparing guess:' + guessID);
+  //console.log('Target:' + dailyID);
   const guessData = await fetchDataByID(guessID);
   const targetData = await fetchDataByID(dailyID);
 
@@ -506,14 +506,35 @@ function scheduleGuessedPokemonReset() {
 }
 
 // Initiate the schedule when the script loads
+// ToDo: Test whether this correctly works when hosted overnight
 scheduleGuessedPokemonReset();
+
+
+document.addEventListener('DOMContentLoaded', generateGuessedData);
+async function generateGuessedData() {
+  // Retrieve the "guessedPokemon" item from localStorage
+  const guessedPokemon = localStorage.getItem("guessedPokemon");
+  if (guessedPokemon){
+    // Remove "[" and "]" from guessedPokemon string
+    const cleanedGuessedPokemon = guessedPokemon.replace(/[\[\]]/g, "");
+    let formatGuessed = cleanedGuessedPokemon.split(",")
+
+    for (let i = 0; i < guessedPokemon.length; i++) {
+      if (formatGuessed[i]){
+        console.log(formatGuessed[i])
+        await compareGuess(formatGuessed[i])
+      }
+    }
+  }
+}
+
 
 
 // Need to study up on some of these concepts
 document.addEventListener('DOMContentLoaded', getDailyIndex); // Note; This is called when the page loads
 function getDailyIndex() {
   // Either comment or uncomment the following line to prevent or allow guesses to be stored.
-  localStorage.setItem("guessedPokemon", null);
+  //localStorage.setItem("guessedPokemon", null);
   const today = new Date().toISOString().slice(0, 10); // "20xx-MM-DD"
   let hash = 0;
 
