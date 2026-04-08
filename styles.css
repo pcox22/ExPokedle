@@ -76,6 +76,7 @@ body {
     margin-right: 50px;
     background-color: rgba(175, 175, 175, 0.5);
     position: absolute;
+    z-index: 2;
 }
 
 .optionTile {
