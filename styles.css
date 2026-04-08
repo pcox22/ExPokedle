@@ -163,23 +163,11 @@ body {
     background: #FFFFFF;
 }
 
+
 .compPic{
     width: 70px;
     height: 70px;
     object-fit: contain;
-}
-
-.guessDetailsHeader{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-top: 10px;
-}
-
-.guessDetailsHeader p{
-    margin: 0px 15px 0 15px;
-    background-color: rgba(30, 30, 30, 0.5);
-    color: #FFFFFF;
 }
 
 .MDC {

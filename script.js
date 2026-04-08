@@ -537,7 +537,7 @@ async function generateGuessedData() {
 document.addEventListener('DOMContentLoaded', getDailyIndex); // Note; This is called when the page loads
 function getDailyIndex() {
   // Either comment or uncomment the following line to prevent or allow guesses to be stored.
-  //localStorage.setItem("guessedPokemon", null);
+  localStorage.setItem("guessedPokemon", null);
   const today = new Date().toISOString().slice(0, 10); // "20xx-MM-DD"
   let hash = 0;
 
