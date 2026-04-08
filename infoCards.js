@@ -373,3 +373,220 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 });
+
+
+// Habitat Info Card
+document.addEventListener('DOMContentLoaded', () => {
+    // Helper to close the popup
+    function closeInfoCardPopup() {
+        const existingPopup = document.querySelector('.infoCardPopup');
+        if (existingPopup) {
+            existingPopup.remove();
+        }
+        document.removeEventListener('mousedown', handleGlobalClick);
+    }
+
+    function handleGlobalClick(e) {
+        // If click is outside the popup and not the button, close it
+        const popup = document.querySelector('.infoCardPopup');
+        if (!popup) return;
+        if (!popup.contains(e.target) && !e.target.classList.contains('habitatInfo')) {
+            closeInfoCardPopup();
+        }
+    }
+
+    document.body.addEventListener('click', function(event) {
+        if (event.target.classList.contains('habitatInfo')) {
+            event.stopPropagation();
+            closeInfoCardPopup(); // Close any open popups first
+
+            // Get button position
+            const button = event.target;
+            const rect = button.getBoundingClientRect();
+
+            // Create popup element
+            const popup = document.createElement('div');
+            popup.className = 'infoCardPopup';
+            popup.style.position = 'absolute';
+            popup.style.zIndex = '2000';
+            popup.style.minWidth = '180px';
+            popup.style.maxWidth = '350px';
+            popup.style.background = '#fffbe9';
+            popup.style.color = '#222';
+            popup.style.boxShadow = '0 2px 10px rgba(0,0,0,0.23)';
+            popup.style.borderRadius = '10px';
+            popup.style.border = '1px solid #ccc';
+            popup.style.padding = '12px 16px';
+            
+            popup.style.fontSize = '13px';
+            popup.style.left = (window.scrollX + rect.left + rect.width + 8) + 'px';
+            popup.style.top = (window.scrollY + rect.top - 18) + 'px';
+
+            popup.innerHTML = `
+                The region in which the Pokemon is generally found.
+            `;
+
+            document.body.appendChild(popup);
+
+            // Make sure it doesn't overflow viewport
+            const popupRect = popup.getBoundingClientRect();
+            if (popupRect.right > window.innerWidth) {
+                popup.style.left = Math.max(8, window.innerWidth - popupRect.width - 8) + 'px';
+            }
+            if (popupRect.bottom > window.innerHeight) {
+                popup.style.top = Math.max(8, window.innerHeight - popupRect.height - 8) + 'px';
+            }
+
+            setTimeout(() => {
+                // attach as async to not trigger on this click
+                document.addEventListener('mousedown', handleGlobalClick);
+            }, 0);
+        }
+    });
+});
+
+
+
+// Height Info Card
+document.addEventListener('DOMContentLoaded', () => {
+    // Helper to close the popup
+    function closeInfoCardPopup() {
+        const existingPopup = document.querySelector('.infoCardPopup');
+        if (existingPopup) {
+            existingPopup.remove();
+        }
+        document.removeEventListener('mousedown', handleGlobalClick);
+    }
+
+    function handleGlobalClick(e) {
+        // If click is outside the popup and not the button, close it
+        const popup = document.querySelector('.infoCardPopup');
+        if (!popup) return;
+        if (!popup.contains(e.target) && !e.target.classList.contains('heightInfo')) {
+            closeInfoCardPopup();
+        }
+    }
+
+    document.body.addEventListener('click', function(event) {
+        if (event.target.classList.contains('heightInfo')) {
+            event.stopPropagation();
+            closeInfoCardPopup(); // Close any open popups first
+
+            // Get button position
+            const button = event.target;
+            const rect = button.getBoundingClientRect();
+
+            // Create popup element
+            const popup = document.createElement('div');
+            popup.className = 'infoCardPopup';
+            popup.style.position = 'absolute';
+            popup.style.zIndex = '2000';
+            popup.style.minWidth = '180px';
+            popup.style.maxWidth = '350px';
+            popup.style.background = '#fffbe9';
+            popup.style.color = '#222';
+            popup.style.boxShadow = '0 2px 10px rgba(0,0,0,0.23)';
+            popup.style.borderRadius = '10px';
+            popup.style.border = '1px solid #ccc';
+            popup.style.padding = '12px 16px';
+            
+            popup.style.fontSize = '13px';
+            popup.style.left = (window.scrollX + rect.left + rect.width + 8) + 'px';
+            popup.style.top = (window.scrollY + rect.top - 18) + 'px';
+
+            popup.innerHTML = `
+                The height of the Pokemon, measured in Meters.
+                <br>(1 Meter is approx. 3.2 Feet)
+            `;
+
+            document.body.appendChild(popup);
+
+            // Make sure it doesn't overflow viewport
+            const popupRect = popup.getBoundingClientRect();
+            if (popupRect.right > window.innerWidth) {
+                popup.style.left = Math.max(8, window.innerWidth - popupRect.width - 8) + 'px';
+            }
+            if (popupRect.bottom > window.innerHeight) {
+                popup.style.top = Math.max(8, window.innerHeight - popupRect.height - 8) + 'px';
+            }
+
+            setTimeout(() => {
+                // attach as async to not trigger on this click
+                document.addEventListener('mousedown', handleGlobalClick);
+            }, 0);
+        }
+    });
+});
+
+
+
+// Weight Info Card
+document.addEventListener('DOMContentLoaded', () => {
+    // Helper to close the popup
+    function closeInfoCardPopup() {
+        const existingPopup = document.querySelector('.infoCardPopup');
+        if (existingPopup) {
+            existingPopup.remove();
+        }
+        document.removeEventListener('mousedown', handleGlobalClick);
+    }
+
+    function handleGlobalClick(e) {
+        // If click is outside the popup and not the button, close it
+        const popup = document.querySelector('.infoCardPopup');
+        if (!popup) return;
+        if (!popup.contains(e.target) && !e.target.classList.contains('weightInfo')) {
+            closeInfoCardPopup();
+        }
+    }
+
+    document.body.addEventListener('click', function(event) {
+        if (event.target.classList.contains('weightInfo')) {
+            event.stopPropagation();
+            closeInfoCardPopup(); // Close any open popups first
+
+            // Get button position
+            const button = event.target;
+            const rect = button.getBoundingClientRect();
+
+            // Create popup element
+            const popup = document.createElement('div');
+            popup.className = 'infoCardPopup';
+            popup.style.position = 'absolute';
+            popup.style.zIndex = '2000';
+            popup.style.minWidth = '180px';
+            popup.style.maxWidth = '350px';
+            popup.style.background = '#fffbe9';
+            popup.style.color = '#222';
+            popup.style.boxShadow = '0 2px 10px rgba(0,0,0,0.23)';
+            popup.style.borderRadius = '10px';
+            popup.style.border = '1px solid #ccc';
+            popup.style.padding = '12px 16px';
+            
+            popup.style.fontSize = '13px';
+            popup.style.left = (window.scrollX + rect.left + rect.width + 8) + 'px';
+            popup.style.top = (window.scrollY + rect.top - 18) + 'px';
+
+            popup.innerHTML = `
+                Weight of the Pokemon, measured in Kilograms.
+                <br>(1 Kilogram is approx. 2.2 Pounds/Lbs)
+            `;
+
+            document.body.appendChild(popup);
+
+            // Make sure it doesn't overflow viewport
+            const popupRect = popup.getBoundingClientRect();
+            if (popupRect.right > window.innerWidth) {
+                popup.style.left = Math.max(8, window.innerWidth - popupRect.width - 8) + 'px';
+            }
+            if (popupRect.bottom > window.innerHeight) {
+                popup.style.top = Math.max(8, window.innerHeight - popupRect.height - 8) + 'px';
+            }
+
+            setTimeout(() => {
+                // attach as async to not trigger on this click
+                document.addEventListener('mousedown', handleGlobalClick);
+            }, 0);
+        }
+    });
+});
