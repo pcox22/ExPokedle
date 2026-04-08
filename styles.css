@@ -161,6 +161,7 @@ body {
 
 .compTitle{
     background: #FFFFFF;
+    position: relative;
 }
 
 
@@ -168,6 +169,35 @@ body {
     width: 70px;
     height: 70px;
     object-fit: contain;
+}
+
+.infoCard{
+    /* Make the button circular */
+    font-family: 'Gen1';
+
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    border: none;
+    background: #eee;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    /* Position the button at the top right of its parent */
+    position: absolute;
+    top: 4px;
+    right: 4px;
+
+    /* Optional: subtle shadow & transition */
+    box-shadow: 0 2px 8px rgba(0,0,0,0.10);
+    transition: background 0.2s;
+
+    /* Lift on hover */
+    &:hover {
+        background: #e0e0e0;
+    }
 }
 
 .MDC {
