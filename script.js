@@ -510,30 +510,6 @@ function scheduleGuessedPokemonReset() {
 // ToDo: Test whether this correctly works when hosted overnight
 scheduleGuessedPokemonReset();
 
-
-document.addEventListener('DOMContentLoaded', generateGuessedData);
-async function generateGuessedData() {
-  // Retrieve the "guessedPokemon" item from localStorage
-  const guessedPokemon = localStorage.getItem("guessedPokemon");
-  if (guessedPokemon){
-    // Remove "[" and "]" from guessedPokemon string
-    const cleanedGuessedPokemon = guessedPokemon.replace(/[\[\]]/g, "");
-    let formatGuessed = cleanedGuessedPokemon.split(",")
-
-
-    for (let i = 0; i < guessedPokemon.length; i++) {
-      if (formatGuessed[i]){
-        totalGuesses += 1
-        console.log(formatGuessed[i])
-        await compareGuess(formatGuessed[i])
-      }
-    }
-  }
-}
-
-
-
-// Need to study up on some of these concepts
 document.addEventListener('DOMContentLoaded', getDailyIndex); // Note; This is called when the page loads
 function getDailyIndex() {
   // Either comment or uncomment the following line to prevent or allow guesses to be stored.
@@ -555,6 +531,29 @@ function getDailyIndex() {
   dailyID = hash;
   //return Math.abs(hash) % totalPokemon;
 }
+
+document.addEventListener('DOMContentLoaded', generateGuessedData);
+async function generateGuessedData() {
+  // Retrieve the "guessedPokemon" item from localStorage
+  const guessedPokemon = localStorage.getItem("guessedPokemon");
+  if (guessedPokemon !== "null"){
+    // Remove "[" and "]" from guessedPokemon string
+    console.log("Guess Size: " + guessedPokemon.length)
+    console.log("Local Guessed Data: " + guessedPokemon)
+    const cleanedGuessedPokemon = guessedPokemon.replace(/[\[\]]/g, "");
+    let formatGuessed = cleanedGuessedPokemon.split(",")
+
+
+    for (let i = 0; i < guessedPokemon.length; i++) {
+      if (formatGuessed[i]){
+        totalGuesses += 1
+        console.log("Formatted Guess: " + formatGuessed[i])
+        await compareGuess(formatGuessed[i])
+      }
+    }
+  }
+}
+
 
 
 
