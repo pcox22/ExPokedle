@@ -48,7 +48,7 @@ document.getElementById('contactBtn').addEventListener('click', function () {
     // Input 1
     const input1 = document.createElement('input');
     input1.type = 'text';
-    input1.placeholder = 'Pokemon';
+    input1.placeholder = 'Subject';
     input1.style.padding = '7px';
     input1.style.marginBottom = '7px';
     input1.style.borderRadius = '6px';
@@ -60,7 +60,7 @@ document.getElementById('contactBtn').addEventListener('click', function () {
     // Input 2
     const input2 = document.createElement('input');
     input2.type = 'text';
-    input2.placeholder = 'Problem';
+    input2.placeholder = 'Description';
     input2.style.padding = '7px';
     input2.style.marginBottom = '7px';
     input2.style.borderRadius = '6px';
