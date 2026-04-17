@@ -6,6 +6,12 @@
     margin-bottom: 20px;
 }
 
+.main{
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
+}
+
 @font-face {
     font-family: 'Gen1';
     src: url('fonts/pokemon_generation_1.woff') format('woff'),
@@ -209,6 +215,12 @@ body {
     align-items: center;
 }
 
+.contactField{
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
+}
+
 .contactBtn {
     padding: 12px 28px;
     background: linear-gradient(90deg, #f4ff55 0%, #dd3822 100%);
@@ -229,4 +241,22 @@ body {
     transform: translateY(-2px) scale(1.03);
     box-shadow: 0 4px 16px rgba(34,136,221,0.14);
     outline: none;
+}
+
+.gameDetails{
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
+
+    margin: 10px 0px 0px 0px;
+}
+
+.instructionsPanel{
+    background: #f4f8fb; 
+    border-radius: 12px; 
+    padding: 18px 22px; 
+    margin-bottom: 18px;
+    box-shadow: 0 2px 14px rgba(34,34,34,0.11); 
+    font-family: Gen1, sans-serif; 
+    max-width: 700px;
 }
