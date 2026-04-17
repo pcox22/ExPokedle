@@ -156,9 +156,10 @@ async function clearSearch(){
 async function getDropDown(name){
   //console.log('DropDown:', name);
   const {data, error} = await supabase
-  .from('pokemon')
-  .select('*')
-  .ilike('name', `%${name}%`);
+    .from('pokemon')
+    .select('*')
+    .ilike('name', `%${name}%`)
+    .limit(30);
 
   if (error) console.error(error);
   const guesses = JSON.parse(localStorage.getItem("guessedPokemon")) || [];
