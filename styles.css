@@ -29,6 +29,19 @@ body {
     font-family: 'Gen1';
 }
 
+header{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    margin: 0px 0px 30px 0px;
+}
+
+header img{
+    height: 25%;
+    width:  25%;
+}
+
 .pokemon-image {
     width: 100px;
     height: 100px;
