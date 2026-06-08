@@ -42,6 +42,31 @@ body::before {
     z-index: -1;
 }
 
+.backToHubBtn {
+    position: fixed;
+    top: 16px;
+    right: 16px;
+    z-index: 10;
+    padding: 10px 18px;
+    background: #FFFDD0;
+    color: #000;
+    border: 3px solid #000;
+    border-radius: 10px;
+    font-size: 1rem;
+    font-family: 'Gen1', Arial, sans-serif;
+    font-weight: 600;
+    text-decoration: none;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+    transition: transform 0.18s, box-shadow 0.18s, background 0.2s;
+}
+
+.backToHubBtn:hover,
+.backToHubBtn:focus {
+    transform: translateY(-2px) scale(1.03);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.18);
+    outline: none;
+}
+
 header{
     display: flex;
     flex-direction: column;
@@ -410,6 +435,13 @@ header{
         padding: 10px 9px;
         border-width: 7px;
         font-size: 15px;
+    }
+
+    .backToHubBtn {
+        top: 10px;
+        right: 10px;
+        padding: 8px 14px;
+        font-size: 0.9rem;
     }
 
     .contactBtn {
