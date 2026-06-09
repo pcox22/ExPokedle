@@ -18,6 +18,9 @@ async function fetchData(name) {
     .from('pokemon')
     .select('*')
     .ilike('name', `%${name}%`)
+    .gte('id', 152)
+    .lt('id', 252);
+
     if (error) {
         console.error('Error fetching data:', error);
         return error;
@@ -159,6 +162,8 @@ async function getDropDown(name){
     .from('pokemon')
     .select('*')
     .ilike('name', `%${name}%`)
+    .gte('id', 152)
+    .lt('id', 252)
     .limit(30);
 
   if (error) console.error(error);
@@ -564,7 +569,7 @@ async function generateGuessedData() {
  * The result is between min (inclusive) and max (exclusive).
  * By default, produces values in [0, 1_000_000).
  */
-function getDailyRandomNumber(min = 0, max = 151) {
+function getDailyRandomNumber(min = 152, max = 251) {
   // Get today's date in YYYY-MM-DD format
   const today = new Date();
   const yyyy = today.getFullYear();
