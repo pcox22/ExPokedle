@@ -1,0 +1,91 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PokedleEX</title>
+  <link rel="stylesheet" href="styles/styles2.css">
+  <link rel="icon" href="images/favicon.png" type="image/png">
+</head>
+
+<body>
+  <a href="index.html" class="backToHubBtn">← Hub</a>
+
+  <header>
+    <img class="mainLogo" src="images/PokedleLogo.png"/>
+    <img class="subLogo" src="images/gen2.png"/>
+  </header>
+
+  <main>
+    <div class="searchContainer" id="searchContainer">
+      <input class="search" type="text" id="pokemonSearch" placeholder="Enter a pokemon, e.g 'Weedle'"/>
+
+      <button class="btn" id="submitSearch">
+        <i class="fa-solid fa-paper-plane" style="font-size: 18px;"></i>
+      </button>
+
+    </div>
+
+    <div id="dataContainer" class="dataContainer">
+        
+        <div id="optionsDisplay" class="">
+        <!-- Empty until the user enters data, will query database for similar results -->
+        </div>
+    </div>
+    <div id="mainDataContainer" class="MDC">
+      <div id="stockC" class="comparisons">
+        <div id="stockCR" class="comparisonRow">
+          <div class="comp compTitle"><button class="infoCard PkmnInfo" id="PkmnInfo">?</button>Pkmn</div>
+          <div class="comp compTitle"><button class="infoCard type1Info">?</button>Type 1</div>
+          <div class="comp compTitle"><button class="infoCard type2Info">?</button>Type 2</div>
+          <div class="comp compTitle"><button class="infoCard stageInfo">?</button>Stage</div>
+          <div class="comp compTitle"><button class="infoCard colorInfo">?</button>Color</div>
+          <div class="comp compTitle"><button class="infoCard habitatInfo">?</button>Habitat</div>
+          <div class="comp compTitle"><button class="infoCard heightInfo">?</button>Height (m)</div>
+          <div class="comp compTitle"><button class="infoCard weightInfo">?</button>Weight (kg)</div>
+        </div>
+      </div>
+
+      <div id="comparisonContainer" class="comparisonContainer">
+        <div id="comparisons" class="comparisons">
+          <div id="placeholderRow" class="comparisonRow">
+            <div class="compEmpty"></div>
+            <div class="compEmpty"></div>
+            <div class="compEmpty"></div>
+            <div class="compEmpty"></div>
+            <div class="compEmpty"></div>
+            <div class="compEmpty"></div>
+            <div class="compEmpty"></div>
+            <div class="compEmpty"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="gameDetails" class="gameDetails">
+      <div class="instructionsPanel">
+        <h2 style="margin-top: 0; margin-bottom: 7px; font-size: 1.18rem;">How to Play</h2>
+        <ul style="padding-left: 18px; margin: 0; font-size: 1rem; color: #246;">
+          <li>Guess the daily Pokémon by entering a name and pressing <b>Enter</b> or clicking the send button.</li>
+          <li>Each guess reveals attributes about the attempted Pokémon and how they compare to the target.</li>
+          <li>Pokedex 1-151 (Kanto) only - More Coming Soon!</li>
+          <li> Come back tomorrow for a new challenge!</li>
+          <li>Found a mistake? Click <i>Report an Issue</i> below.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div id="contactField" class="contactField">
+      <button id="contactBtn" class="contactBtn">Report an Issue</button>
+    </div>
+  </main>
+</body>
+
+<script type="module" src="scripts/script2.js"></script>
+<script type="module" src="scripts/infoCards.js"></script>
+<script type="module" src="scripts/contact.js"></script>
+
+<script src="https://kit.fontawesome.com/965544adba.js" crossorigin="anonymous"></script>
+</html>
