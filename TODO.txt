@@ -1,0 +1,18 @@
+FEATURES
+    1 - Generations 3-9
+        1.1 - Create / Complete Web Pages & Styles / Functionality
+
+    2 - Shiny Toggle (Consider an option to toggle between shiny and non-shiny images)
+    
+    3 - Cookies
+
+SYSTEM
+    1 - Logic Rework
+        1.1 - Consider loading DB Entries on site load. Increases responsiveness by limiting DB call to 1
+
+    2 - Database
+        2.3-9 Complete Database entries and images for generations 3-9
+        2.10 - Consider adding shiny images to DB for Shiny Toggle (See FEATURES)
+    
+    3 - Privacy Policy
+        3.1 Explore cookies and User Data for privacy and advertisement engagement (Requires Developer Training)
